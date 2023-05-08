@@ -48,9 +48,9 @@ python test.py configs\fp16_LEVIR_pdacn.py   ${CHECKPOINT_PATH} --eval mFscore m
 
 
 
-| Method | Backbone    | Crop Size |   Lr schd | Params. (Mb) |  mIoU | config                                | notebook                                  |
+| Method | Backbone    | Crop Size |   Lr schd | Params. (Mb) |  IoU | config                                | notebook                                  |
 | ------ | ----------- | --------- | --------: | ------------ | ----: | ------------------------------------- | ----------------------------------------- |
-| DACN   | Segformerb0 | 256x256   | 300 epoch | 4.22         | 72.25 | [config](configs/fp16_LEVIR_pdacn.py) | [LEVIRCD实验](notebook/LEVIRCD实验.ipynb) |
+| DACN   | Segformerb0 | 256x256   | 300 epoch | 4.22         | 84.92 | [config](configs/fp16_LEVIR_pdacn.py) | [LEVIRCD实验](notebook/LEVIRCD实验.ipynb) |
 
 ![image-20230508165208890](resource/table-1.png)
 
