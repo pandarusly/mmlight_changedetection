@@ -1,0 +1,73 @@
+# @package _global_
+# epoch_300_adamw_poly
+defaults:
+  - override /callbacks: default.yaml
+  - override /trainer: default.yaml
+
+OptimizerInterval: 'epoch'
+interval: 1 # val_check_interval in trainer epoch
+ckpt_interval: 1 #interval+5
+log_interval: 1
+max_iters: 12
+monitor: 'mIoU'
+
+trainer:
+  max_epochs: ${max_iters}
+  max_steps: -1
+  val_check_interval: null #  max_steps//10
+  log_every_n_steps: ${log_interval}
+  check_val_every_n_epoch: ${interval}
+  precision: 16
+  gradient_clip_val: 0.5
+  gradient_clip_algorithm: norm
+
+callbacks:
+  model_checkpoint:
+    dirpath: ${paths.output_dir}/checkpoints
+    filename: epoch_{epoch:03d}_mIoU{mIoU:.3f}
+    monitor: ${monitor}
+    verbose: False
+    save_last: True
+    save_top_k: 1
+    mode: 'max'
+    auto_insert_metric_name: False
+    save_weights_only: False
+    every_n_train_steps: null
+    train_time_interval: null
+    every_n_epochs: ${ckpt_interval}  
+    save_on_train_epoch_end: null
+
+  early_stopping:
+    monitor: ${monitor}
+    patience: 100
+    mode: "max"
+
+  model_summary:
+    max_depth: -1
+
+  learning_rate_monitor:
+    _target_: 'pytorch_lightning.callbacks.LearningRateMonitor'
+    logging_interval: ${OptimizerInterval}
+
+TRAIN:
+  EPOCHS:  ${max_iters}
+  INTERVAL: ${OptimizerInterval}
+  MONITOR: ${monitor}
+  WARMUP_EPOCHS: 0
+  BASE_LR: 0.0003
+  T_IN_EPOCHS: True
+  WARMUP_LR: 1.0e-07
+  MIN_LR: 1.0e-07
+  WEIGHT_DECAY: 0.001
+  OPTIMIZER:
+      NAME: 'adamw'
+      MOMENTUM: 0.9
+      EPS: 1.0e-08
+      BETAS: [0.9, 0.999] 
+  LR_SCHEDULER: 
+      NAME: 'linear'
+      DECAY_RATE: 0.1
+      DECAY_EPOCHS: 6
+      MODE: 'max'
+      PATIENCE: 10
+      GAMMA: 0.9

@@ -1,0 +1,50 @@
+_target_: trainers.datamodule.cdd.generalcd.GeneralCDDataModule
+
+root: /workspace/data/LEVIR_256
+
+load_from_txt: True
+# -----训练的
+train_transform :
+    type: CDDataAugmentation
+    img_size: null
+    with_random_hflip: True
+    with_random_vflip: True
+    with_random_rot: True
+    # with_random_crop: True
+    # with_scale_random_crop: True
+    # with_random_blur: True
+    # random_color_tf: True
+
+# ---------------------  验证的
+val_transform :
+    type: CDDataAugmentation
+    img_size: null
+
+# --------------------- 数据
+
+train_dataset:
+  type: 'GeneralCDDataset'
+  root: ${datamodule.root}
+  # root: ${datamodule.root}
+  split: 'train'
+  load_from_txt: ${datamodule.load_from_txt}
+  transforms: ${datamodule.train_transform}
+
+
+val_dataset:
+  type: 'GeneralCDDataset'
+  root: ${datamodule.root}
+  split: 'val'
+  load_from_txt: ${datamodule.load_from_txt}
+  transforms: ${datamodule.val_transform}
+
+test_dataset:
+  type: 'GeneralCDDataset'
+  root: ${datamodule.root}
+  split: 'test'
+  load_from_txt: ${datamodule.load_from_txt}
+  transforms: ${datamodule.val_transform}
+  
+batch_size: 16
+num_workers: 2
+pin_memory: True

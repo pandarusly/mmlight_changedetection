@@ -1,0 +1,42 @@
+# --------- pytorch --------- #
+
+# pip install torch==1.9.1+cu102 torchvision==0.10.1+cu102 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+
+
+# --------- hydra --------- #
+# hydra
+hydra-core==1.2.0
+hydra-colorlog==1.2.0
+# hydra-optuna-sweeper
+# hydra-ax-sweeper
+# hydra-ray-launcher
+# hydra-submitit-launcher
+
+# --------- loggers --------- #
+# wandb~=0.12.6
+# neptune-client
+# mlflow
+# comet-ml
+# torch_tb_profiler
+
+# --------- linters --------- #
+# pre-commit      # hooks for applying linters on commit
+# black           # code formatting
+# isort           # import sorting
+# flake8          # code analysis
+
+# # --------- others --------- #
+einops==0.4.1
+matplotlib==3.5.3
+numpy==1.21.5
+omegaconf==2.1.1
+opencv_python==4.5.4.58
+Pillow==9.2.0
+pycocotools==2.0.4
+python-dotenv==0.20.0
+pytorch_lightning==1.8.0
+rich==12.5.1
+scikit_learn==1.1.2
+scipy==1.7.2
+seaborn==0.11.1
+timm==0.6.13

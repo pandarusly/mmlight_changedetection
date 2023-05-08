@@ -1,0 +1,58 @@
+_target_: trainers.datamodule.cdd.generalcd.GeneralCDDataModule
+
+train_dataset:
+  type: 'GeneralCDDataset'
+  root: /workspace/data/SYSU-CD
+  split: 'train'
+  load_from_txt: false
+  datset_attr:
+    img_sufix: png
+    label_sufix: png
+    imgA: time1
+    imgB: time2
+    label: label
+    change_split: True
+  transforms:
+    type: CDDSequenceTransform
+    img_size: null
+    with_random_hflip: True
+    with_random_vflip: True
+    with_random_rot: True
+    with_perspective: true
+val_dataset:
+  type: 'GeneralCDDataset'
+  root: /workspace/data/SYSU-CD
+  split: 'val'
+  load_from_txt: False
+  datset_attr:
+    img_sufix: png
+    label_sufix: png
+    imgA: time1
+    imgB: time2
+    label: label
+    change_split: True
+  transforms:
+    type: CDDSequenceTransform #CDDSequenceTransform CDDataAugmentation
+    img_size: null
+
+test_dataset:
+  type: 'GeneralCDDataset'
+  root:  /workspace/data/SYSU-CD
+  split: 'test'
+  load_from_txt: False
+  datset_attr:
+    img_sufix: png
+    label_sufix: png
+    imgA: time1
+    imgB: time2
+    label: label
+    change_split: True
+  transforms:
+    type: CDDSequenceTransform
+    img_size: null
+
+batch_size: 16
+
+val_batch_size: null
+num_workers: 2
+pin_memory: True

@@ -1,0 +1,62 @@
+_target_: trainers.GeneralCDDataModule
+
+root: G:\实验数据\遥感数据集\变化检测\OSCD 
+
+NormalizeAll: 
+  type: 'Normalize'
+  mean: [0.5, 0.5, 0.5,0.5,0.5,0.5, 0.5, 0.5,0.5,0.5, 0.5,0.5,0.5,]
+  std: [0.5, 0.5, 0.5,0.5,0.5,0.5, 0.5, 0.5,0.5,0.5, 0.5,0.5,0.5,]
+
+NormalizeRGB: 
+  type: 'Normalize'
+  mean: [0.5,0.5,0.5]
+  std: [0.5,0.5,0.5]
+  min_val: 0
+  max_val: 65536
+
+# -----训练的
+train_transform :
+  - type: 'ArrangeToPaddleRS'
+  - type: 'RandomHorizontalFlip' #fafasf
+  - type: 'RandomVerticalFlip'
+  - ${NormalizeAll}
+  - type: 'ArrangeToBasic'
+  - type: 'ToTensor'
+    keys: ['img1','img2','gt_semantic_seg']
+  - type: 'ArrangeChangeDetector'
+
+# ---------------------  验证的
+val_transform :
+  - type: 'ArrangeToPaddleRS'
+  - ${NormalizeAll}
+  - type: 'ArrangeToBasic'
+  - type: 'ToTensor'
+    keys: ['img1','img2','gt_semantic_seg']
+  - type: 'ArrangeChangeDetector'
+
+
+train_dataset:
+  type: 'OSCD'
+  root: ${root}
+  split: 'train'
+  bands: "all"
+  transforms: ${train_transform}
+
+
+val_dataset:
+  type: 'OSCD'
+  root: ${root}
+  split: 'test'
+  bands: "all"
+  transforms: ${val_transform}
+
+test_dataset:
+  type: 'OSCD'
+  root: ${root}
+  split: 'test'
+  bands: "all"
+  transforms: ${val_transform}
+
+batch_size: 1
+num_workers: 4
+pin_memory: True

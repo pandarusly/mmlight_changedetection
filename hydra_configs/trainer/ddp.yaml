@@ -1,0 +1,14 @@
+defaults:
+  - default.yaml
+gpus: -1
+strategy: ddp
+#accelerator: cpu
+# strategy:
+#   _target_:  pytorch_lightning.plugins.DDPPlugin
+#   find_unused_parameters: true
+sync_batchnorm: True
+#
+gradient_clip_val: 0.5
+gradient_clip_algorithm: 'norm'
+# stochastic_weight_avg: true
+#accumulate_grad_batches: 2

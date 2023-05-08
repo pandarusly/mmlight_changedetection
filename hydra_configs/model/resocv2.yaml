@@ -1,0 +1,37 @@
+defaults:
+  - default.yaml
+
+
+name: 7.18_lka
+
+mid_channel: 128
+
+Config:
+  MODEL:
+    type: MixOC
+    backbone:
+      type: MMCVResTiny
+      out_index: [0,1,2]
+      num_stages: 4
+      init_cfg:
+        type: Pretrained
+        checkpoint: /workspace/data/pretrained/resnet18-5c106cde.pth #/workspace/data/pretrained/segformer.b0.1024x1024.pth
+    seghead: 
+      type: SimpleFuse
+      in_channels: [64,128,256]
+      channels: ${model.mid_channel}
+    changehead:
+      type: ChangeSeg
+      change:
+        type: LKADIFF #depwise_diff
+        dim: ${model.mid_channel}
+        k: 5
+        td: True
+        k2: 3
+      fcn:
+        type: fcn #fcn dwfcn
+        in_channels: ${model.mid_channel}
+        channels: ${model.mid_channel}
+        # num_convs: 1
+        # concat_input: false
+        upsample_sacle: 2

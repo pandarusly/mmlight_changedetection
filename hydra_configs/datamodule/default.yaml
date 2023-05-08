@@ -1,0 +1,29 @@
+_target_: trainers.datamodule.LEVIRCDDataModule
+# _target_: trainers.datamodule.CDDDataModule
+
+#root: 'E:\矿大数据\深度学习数据集\变化检测数据集\samples_WHU' #'C:\Users\admin\Desktop\Samples\samples_WHU'
+root: '/workspace/data/LEVIR_256/'
+#root: D:\zhuomian\data\LEVIR_256
+
+train_transforms:
+  _target_: datasets.pipelines.CDDSequenceTransform
+  img_size: null
+  with_random_hflip: True
+  with_random_vflip: True
+  with_random_rot: True
+  with_random_crop: True
+  with_scale_random_crop: True
+  with_random_blur: True
+  with_random_color_tf: True
+  with_perspective: True
+#  random_color_tf: True
+
+val_transforms:
+  _target_: datasets.pipelines.CDDSequenceTransform
+  img_size: null
+
+
+batch_size: 16
+num_workers: 4
+pin_memory: True
+early_fusion: False

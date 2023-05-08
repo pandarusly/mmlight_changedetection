@@ -1,0 +1,22 @@
+_target_: trainers.datamodule.CDDDataModule
+root: /workspace/data/LEVIR_1024
+train_transforms:
+  _target_: datasets.pipelines.CDDSequenceTransform
+  img_size: null
+  with_random_hflip: true
+  with_random_vflip: true
+  with_random_rot: true
+  # with_random_crop: true
+  # with_scale_random_crop: true
+  # with_random_blur: true
+  # with_random_color_tf: true
+  with_perspective: true
+val_transforms:
+  _target_: datasets.pipelines.CDDSequenceTransform
+  img_size: null
+split_train: train
+split_val: val
+split_test: test
+batch_size: 4
+num_workers: 2
+pin_memory: true

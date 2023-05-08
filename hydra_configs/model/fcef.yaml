@@ -1,0 +1,22 @@
+defaults:
+  - default.yaml
+  
+_target_:  trainers.modules.BaseChange.BaseChangeLite
+example_input_array: [1, 3, 256, 256]
+HPARAMS_LOG: True
+CKPT: null
+Config:
+  MODEL: 
+    type: FCSiamDiff #FCEF #FCSiamDiff #FCSiamConc #FCEF#FCSiamConc
+    num_band: 3
+    num_class: 2
+# python test.py ++exp_file=/workspace/mix_oc/checkpoints/fcdiff/config.yaml ++ckpt_path=/workspace/mix_oc/checkpoints/fcdiff/epoch_282.ckpt 
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃        Test metric        ┃       DataLoader 0        ┃
+# ┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+# │        test/.F1_1         │    0.8912780253073136    0.8911689851549868      │
+# │         test/.acc         │    0.9890968129038802    0.9890983179211608  │
+# │        test/.iou_1        │    0.8038788381068631    0.8037014483735804 │
+# │     test/.precision_1     │    0.9057300925477664     0.906687476001873 │
+# │      test/.recall_1       │    0.8772800320121343    0.8761728866686678 │
+# └───────────────────────────┴───────────────────────────┘

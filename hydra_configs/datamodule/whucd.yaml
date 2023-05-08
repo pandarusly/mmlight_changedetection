@@ -1,0 +1,67 @@
+_target_: trainers.datamodule.cdd.generalcd.GeneralCDDataModule
+
+root: 'F:\study-note\python-note\Advance_py\DLDEV\mmlightv2\data\samples_WHU'
+# -----训练的
+train_transform :
+  - type: 'ArrangeToPaddleRS'
+  - type: 'RandomCrop'
+    crop_size: 256
+    aspect_ratio:  [0.8, 2.0]
+    scaling:  [0.8, 1]
+  - type: 'RandomHorizontalFlip' #fafasf
+  - type: 'RandomVerticalFlip'
+  - type: 'RandomDistort'
+    brightness_range: 0.3
+    contrast_range: 0.3
+    saturation_range: 0.3
+    hue_range: 0.3
+  - type: 'RandomBlur'
+
+  - type: 'Normalize'
+    mean: [0.5, 0.5, 0.5]
+    std: [0.5, 0.5, 0.5]
+  - type: 'ArrangeToBasic'
+  - type: 'ToTensor'
+    keys: ['img1','img2','gt_semantic_seg']
+  - type: 'ArrangeChangeDetector'
+
+# ---------------------  验证的
+val_transform :
+  - type: 'ArrangeToPaddleRS'
+  - type: 'Normalize'
+    mean: [0.5, 0.5, 0.5]
+    std: [0.5, 0.5, 0.5]
+  - type: 'ArrangeToBasic'
+  - type: 'ToTensor'
+    keys: ['img1','img2','gt_semantic_seg']
+  - type: 'ArrangeChangeDetector'
+
+
+train_dataset:
+  type: 'GeneralCDDataset'
+  # root: ${datamodule.root}
+  root: ${datamodule.root}
+  split: 'train'
+  load_from_txt: True
+  transforms: ${datamodule.train_transform}
+
+
+val_dataset:
+  type: 'GeneralCDDataset'
+  root: ${datamodule.root}
+  split: 'val'
+  load_from_txt: True
+  transforms: ${datamodule.val_transform}
+
+test_dataset:
+  type: 'GeneralCDDataset'
+  root: ${datamodule.root}
+  split: 'test'
+  load_from_txt: True
+  transforms: ${datamodule.val_transform}
+
+
+
+batch_size: 2
+num_workers: 0
+pin_memory: True

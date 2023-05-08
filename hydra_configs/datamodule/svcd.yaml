@@ -1,0 +1,80 @@
+_target_: trainers.GeneralCDDataModule
+
+root: 'E:\矿大数据\深度学习数据集\变化检测数据集\CD_Data_GZ\CD_Data_GZ'
+
+datset_attr:
+  img_sufix: 'tif'
+  label_sufix: 'png'
+  imgA: 'T1'
+  imgB: 'T2'
+  label: 'labels_change'
+  change_split: True
+# -----训练的
+train_transform :
+  - type: 'ArrangeToPaddleRS'
+  - type: 'RandomCrop'
+    crop_size: 256
+    aspect_ratio:  [0.8, 2.0]
+    scaling:  [0.5, 1.0]
+  - type: 'RandomHorizontalFlip' #fafasf
+  - type: 'RandomVerticalFlip'
+  - type: 'RandomDistort'
+    brightness_range: 0.3
+    contrast_range: 0.3
+    saturation_range: 0.3
+    hue_range: 0.3
+  - type: 'RandomBlur'
+
+  - type: 'Normalize'
+    mean: [0.5, 0.5, 0.5]
+    std: [0.5, 0.5, 0.5]
+  - type: 'ArrangeToBasic'
+  - type: 'ToTensor'
+    keys: ['img1','img2','gt_semantic_seg']
+  - type: 'ArrangeChangeDetector'
+
+# ---------------------  验证的
+val_transform :
+  type: CDDSequenceTransform
+  img_size: null
+  with_random_hflip: True
+  with_random_vflip: True
+  with_random_rot: True
+  with_random_crop: True
+  with_scale_random_crop: True
+  with_random_blur: True
+  with_random_color_tf: True
+  with_perspective: True  
+
+# -----------------------
+train_dataset:
+  type: 'GeneralCDDataset'
+  # root: ${datamodule.root}
+  root: ${root}
+  split: 'train'
+  load_from_txt: False
+  transforms: ${train_transform}
+  datset_attr: ${datset_attr}
+
+
+val_dataset:
+  type: 'GeneralCDDataset'
+  root: ${root}
+  split: 'val'
+  load_from_txt: False
+  transforms: ${val_transform}
+  datset_attr: ${datset_attr}
+
+test_dataset:
+  type: 'GeneralCDDataset'
+  root: ${root}
+  split: 'test'
+  load_from_txt: False
+  transforms: ${val_transform}
+  datset_attr: ${datset_attr}
+
+
+
+batch_size: 1
+num_workers: 4
+pin_memory: True
