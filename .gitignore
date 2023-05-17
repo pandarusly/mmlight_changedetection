@@ -115,6 +115,10 @@ data
 *.log.json
 work_dirs/
 mmseg/.mim
+logs/
 
 # Pytorch
 *.pth
+
+
+

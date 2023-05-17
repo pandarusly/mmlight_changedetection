@@ -3,11 +3,12 @@ mid_channel=128
 norm_cfg = dict(type='SyncBN', requires_grad=True)
 model = dict(
     type='DIEncoderDecoder',
-    pretrained=None,
+    pretrained='data/pdacn_delmodel.pth',
     backbone=dict(
         type='PDACN',
         backbone=dict(
-            type= "mit_b0",
+            type= "mit_b0"
+            # init_cfg=dict(type='Pretrained', checkpoint=r'data/pdacn_delmodel.pth')
             ),
     seghead=dict(
         type="SimpleFuse",

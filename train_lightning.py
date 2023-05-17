@@ -52,7 +52,7 @@ from lightnings.lightning_model_module import BaseModelModuleV2
 # https://github.com/ashleve/pyrootutils
 # ------------------------------------------------------------------------------------ #
 from mmseg import __version__
-from opencdv2 import __version__
+from mmcd import __version__
 from mmseg.apis import init_random_seed
 from mmseg.utils import get_device, setup_multi_processes
 
