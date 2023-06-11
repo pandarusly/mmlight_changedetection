@@ -1,0 +1,37 @@
+model = dict(
+    type='SiamEncoderDecoder',
+    pretrained='open-mmlab://resnet18_v1c',
+    backbone=dict(
+        type='ResNetV1c',
+        depth=18,
+        num_stages=4,
+        out_indices=(0, 1, 2, 3),
+        dilations=(1, 1, 1, 1),
+        strides=(1, 2, 2, 2),
+        norm_cfg=dict(type='SyncBN', requires_grad=True),
+        norm_eval=False,
+        style='pytorch',
+        contract_dilation=True),
+    neck=dict(type='FeatureFusionNeck', policy='concat'),
+    decode_head=dict(
+        type='TIAHead',
+        in_channels=[64, 128, 256, 512],
+        in_index=[0, 1, 2, 3],
+        fuse_cfg=dict(
+            type='FPNFuse',
+            in_channels=[64, 128, 256, 512],
+            mid_channel_3x3=96,
+            out_channel_3x3=256,
+            norm_cfg=dict(type='SyncBN', requires_grad=True)),
+        attn=dict(type='LAKForChange',dim=256),
+        difference_cfg=dict(type='abs_diff', i_c=256),
+        channels=256,
+        out_channels=2,
+        num_classes=2,
+        threshold=0.5,
+        norm_cfg=dict(type='SyncBN', requires_grad=True),
+        align_corners=False,
+        loss_decode=dict(
+            type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0)),
+    train_cfg=dict(),
+    test_cfg=dict(mode='whole'))

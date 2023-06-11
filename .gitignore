@@ -116,6 +116,12 @@ data
 work_dirs/
 mmseg/.mim
 logs/
+*.png
+*trace*
+.gitignore
+sh/mscdn
+sh/test
+sh/*.tar
 
 # Pytorch
 *.pth

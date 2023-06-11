@@ -19,5 +19,6 @@ _base_ = [
 # python  train.py  configs/bit-r18.py --work-dir logs\fp16_LEVIR_pdacn --gpu-id 0 --seed 42 
 # python  train_lightning.py cfg_path=configs/bit-r18.py  experiment=epoch_300_adamw_poly  logger=wandb
 
-# python  test.py configs/bit-r18.py logs/train/runs/2023-05-17_21-46-27/checkpoints/epoch_127_mIoU0.842.ckpt --eval mFscore mIoU
- 
+# python  test.py configs/bit-r18.py  logs/train/runs/2023-05-17_21-46-27/checkpoints/epoch_060_mIoU0.837_in100.ckpt --work-dir logs/res/
+# --eval-options  imgfile_prefix=logs/res/bit-r18 --format-only 
+# --eval mFscore mIoU

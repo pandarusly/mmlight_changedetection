@@ -136,12 +136,13 @@ class ContrastiveLossV2(nn.Module):
             positive_mask[self.batch_size  + i, i] = 1
  
         unique_strings, counts = np.unique(metas, return_counts=True)
-        
- 
+        # print("unique_strings",len(unique_strings))
+        # print(",metas",len(metas))
         indices=[]
         for i, s in enumerate(unique_strings): 
             indice = np.where(metas == s)[0]
             indices.append(indice)
+            # print("indices",indice,len(indice))
             if len(indice)>1: 
                 positive_mask = self.make_positive(indice,positive_mask,batch=self.batch_size)
 
@@ -159,12 +160,11 @@ class ContrastiveLossV2(nn.Module):
         return loss
     
 
- 
-    
-
 @HEADS.register_module()
 class SimClrHead(BaseDecodeHead):
-    def __init__(self, loss_decode=dict(
+    def __init__(self, 
+                    weight=0.2,
+                    loss_decode=dict(
                     type="ContrastiveLossV2",
                     batch_size=4
                     ),
@@ -177,7 +177,7 @@ class SimClrHead(BaseDecodeHead):
 
         self.loss_decode = build_loss(loss_decode)
         # self.loss_decode = TemporalCosistenLoss(batch_size)
-        self.weight = 1
+        self.weight = weight
 
         self.projection_dim = 64 
 
@@ -221,5 +221,22 @@ class SimClrHead(BaseDecodeHead):
     def forward_test(self, inputs, img_metas, test_cfg):
         return super().forward_test(inputs, img_metas, test_cfg)
 
+@HEADS.register_module()
+class SimClrHeadForPublic(SimClrHead):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+    
+
+    def forward_train(self, inputs, img_metas, gt_semantic_seg, train_cfg):
+        projection1,projection2 = self(inputs)
+        # print(len(img_metas))
+        get_prefix = lambda metas : np.array([meta['filename'][0] for meta in  metas])
+        # print(len(img_metas),get_prefix(img_metas))
+        
+        loss = dict() 
+        losses = self.loss_decode(projection1,projection2,get_prefix(img_metas))*self.weight
+        loss['loss_simclr'] = losses
+
+        return loss
 
 # from mmseg.apis import init_segmentor, inference_segmentor, show_result_pyplot

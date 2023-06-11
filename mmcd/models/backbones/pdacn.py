@@ -14,6 +14,7 @@ from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 import math
 from functools import partial
 from mmseg.ops import Upsample,resize
+import warnings
 # ----------------------
 from mmcv.utils import Registry 
 SEGHEADS = Registry('seghead')

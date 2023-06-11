@@ -42,6 +42,7 @@ class BaseModelModule(LightningModule, ABC):
         self.model = revert_sync_batchnorm(self.model)
 
         self.CLASSES = model.CLASSES
+        self.PALETTE = model.PALETTE
         self.evaluate_dataset = evaluate_dataset
         self.eval_kwargs = eval_kwargs
 
@@ -220,6 +221,8 @@ class BaseModelModuleV2(BaseModelModule):
         checkpoint['state_dict'] =  new_ckpt
         meta = dict(
             mmseg_version='00',
-            CLASSES=self.CLASSES)
+            CLASSES=self.CLASSES,
+            PALETTE=self.PALETTE,
+            )
         checkpoint['meta'] =  meta
  

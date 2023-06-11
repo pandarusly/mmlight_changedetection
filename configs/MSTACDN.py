@@ -14,10 +14,11 @@ _base_ = [
 # ]
 
 # python browse_dataset.py configs/MSTACDN.py --output-dir browser_jpg_cd
-# python get_flops.py configs/changeformer_mit-b0.py
+# python get_flops.py configs/MSTACDN.py
 
 # python  train.py  configs/MSTACDN.py --work-dir logs\MSTACDN --gpu-id 0 --seed 42 
 # python  train_lightning.py cfg_path=configs/MSTACDN.py  experiment=epoch_300_adamw_poly  logger=wandb
 
-# python  test.py configs/MSTACDN.py F:\study-note\python-note\Advance_py\DLDEV\Task-36869338\代码截图\代码截图\论文代码\log\LeVirCd\MDACN\2022-07-25_11-45-23\checkpoints\opencd_mdac_f10.9227_levir.pth --eval mFscore mIoU
- 
+# python  test.py logs/train/runs/2023-05-18_01-21-31/MSTACDN.py logs/train/runs/2023-05-18_01-21-31/checkpoints/epoch_238_mIoU0.865.ckpt --work-dir logs/res/
+# --eval-options  imgfile_prefix=logs/res/MSTACDN-best --format-only 
+# --eval mFscore mIoU

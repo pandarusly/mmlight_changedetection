@@ -19,5 +19,7 @@ _base_ = [
 # python  train.py  configs/fc_siam_diff.py --work-dir logs\fp16_LEVIR_pdacn --gpu-id 0 --seed 42 
 # python  train_lightning.py cfg_path=configs/fc_siam_diff.py  experiment=epoch_300_adamw_poly  logger=wandb
 
-# python  test.py configs/fc_siam_diff.py F:\study-note\python-note\Advance_py\DLDEV\Task-36869338\代码截图\代码截图\论文代码\log\LeVirCd\MDACN\2022-07-25_11-45-23\checkpoints\opencd_mdac_f10.9227_levir.pth --eval mFscore mIoU
+# python  test.py configs/fc_siam_diff.py logs/train/runs/2023-05-17_22-09-10/checkpoints/epoch_244_mIoU0.779.ckpt   --work-dir logs/res/
+# --eval-options  imgfile_prefix=logs/res/fc_siam_diff --format-only 
+# --eval mFscore mIoU
  

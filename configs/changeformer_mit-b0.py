@@ -19,5 +19,6 @@ _base_ = [
 # python  train.py  configs/changeformer_mit-b0.py --work-dir logs\fp16_LEVIR_pdacn --gpu-id 0 --seed 42 
 # python  train_lightning.py cfg_path=configs/changeformer_mit-b0.py  experiment=epoch_300_adamw_poly  logger=wandb
 
-# python  test.py configs/changeformer_mit-b0.py F:\study-note\python-note\Advance_py\DLDEV\Task-36869338\代码截图\代码截图\论文代码\log\LeVirCd\MDACN\2022-07-25_11-45-23\checkpoints\opencd_mdac_f10.9227_levir.pth --eval mFscore mIoU
- 
+# python  test.py configs/changeformer_mit-b0.py logs/train/runs/2023-05-17_22-02-00/checkpoints/epoch_245_mIoU0.824.ckpt   --work-dir logs/res/
+# --eval-options  imgfile_prefix=logs/res/changeformer_mit-b0 --format-only 
+# --eval mFscore mIoU
